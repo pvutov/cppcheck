@@ -780,12 +780,10 @@ CmdLineParser::Result CmdLineParser::parseFromArgs(int argc, const char* const a
                 // "-j 3"
                 if (std::strcmp(argv[i], "-j") == 0) {
                     ++i;
-                    if (i >= argc || argv[i][0] == '-') {
-                        mLogger.printError("argument to '-j' is missing.");
-                        return Result::Fail;
-                    }
-
-                    numberString = argv[i];
+                    if (i >= argc || argv[i][0] == '-')
+                        numberString = '0';
+                    else
+                        numberString = argv[i];
                 }
 
                 // "-j3"

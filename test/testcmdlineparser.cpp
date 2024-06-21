@@ -202,6 +202,7 @@ private:
         TEST_CASE(jobs2);
         TEST_CASE(jobs0);
         TEST_CASE(jobsMissingCount);
+        TEST_CASE(jobsCountIsFile);
         TEST_CASE(jobsInvalid);
         TEST_CASE(jobsTooBig);
         TEST_CASE(maxConfigs);
@@ -1178,6 +1179,14 @@ private:
     }
 
     void jobsMissingCount() {
+        REDIRECT;
+        const char * const argv[] = {"cppcheck", "-j", "--", "file.cpp"};
+        // -j is equivalent to -j0
+        ASSERT_EQUALS_ENUM(CmdLineParser::Result::Success, parser->parseFromArgs(4, argv));
+        ASSERT(0 != settings->jobs);
+    }
+
+    void jobsCountIsFile() {
         REDIRECT;
         const char * const argv[] = {"cppcheck", "-j", "file.cpp"};
         // Fails since -j is missing thread count
